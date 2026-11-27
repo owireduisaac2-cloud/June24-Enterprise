@@ -1,0 +1,1544 @@
+<comment-tag id="1"><!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>June 24 Enterprise | Quality Footwear, Tactical Gear & Streetwear Ghana</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#0B1E3D',
+                            900: '#0F2C59',
+                            950: '#07152B',
+                        },
+                        gold: {
+                            400: '#F3E5AB',
+                            500: '#D4AF37',
+                            600: '#C5A059',
+                            700: '#A38038',
+                        },
+                        brandRed: '#E53E3E'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Firebase Imports -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Firebase Configuration & Initialization
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            apiKey: "demo-api-key",
+            authDomain: "june24-enterprise.firebaseapp.com",
+            projectId: "june24-enterprise",
+            storageBucket: "june24-enterprise.appspot.com",
+            messagingSenderId: "1234567890",
+            appId: "1:1234567890:web:demo"
+        };
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'june24-enterprise-app';
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Expose Firebase services globally for UI integration
+        window.db = db;
+        window.auth = auth;
+        window.appId = appId;
+        window.doc = doc;
+        window.setDoc = setDoc;
+        window.deleteDoc = deleteDoc;
+        window.onSnapshot = onSnapshot;
+        window.collection = collection;
+
+        // Auto Authentication setup
+        window.initAuth = async function() {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (err) {
+                console.warn("Auth initialization fallback:", err);
+            }
+        };
+
+        window.initAuth();
+    </script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gold-bg-gradient {
+            background: linear-gradient(135deg, #D4AF37 0%, #C5A059 100%);
+        }
+        .navy-glass {
+            background: rgba(15, 44, 89, 0.95);
+            backdrop-filter: blur(12px);
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col selection:bg-gold-500 selection:text-navy-950">
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed top-20 right-5 z-50 transform translate-x-full opacity-0 transition-all duration-300 bg-navy-950 border-l-4 border-gold-500 text-white p-4 rounded-r-lg shadow-2xl flex items-center space-x-3 max-w-sm">
+        <div id="toast-icon-bg" class="p-2 rounded-full bg-gold-500/20 text-gold-400">
+            <i class="fa-solid fa-circle-check text-lg" id="toast-icon"></i>
+        </div>
+        <div class="flex-grow">
+            <h4 class="font-bold text-xs uppercase tracking-wider text-gold-400" id="toast-title">Success</h4>
+            <p class="text-xs text-slate-200" id="toast-message">Item added to cart.</p>
+        </div>
+        <button onclick="hideToast()" class="text-slate-400 hover:text-white">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <!-- Announcement Bar -->
+    <div class="bg-navy-950 text-slate-300 text-[11px] py-2 px-4 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-center sm:text-left gap-1">
+            <div class="flex items-center space-x-3">
+                <span class="bg-gold-500 text-navy-950 font-extrabold px-2 py-0.5 rounded text-[10px] tracking-wider uppercase">Made In Ghana</span>
+                <span>🔥 Fast Delivery Nationwide (Accra 24hrs | Kumasi & Regions 48hrs)</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span><i class="fa-solid fa-phone text-gold-400 mr-1"></i> +233 (0) 59 811 3819</span>
+                <span class="hidden md:inline">| MoMo Accepted Direct</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-40 w-full bg-navy-900 text-white shadow-lg border-b border-navy-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20 gap-4">
+                
+                <!-- Brand Logo (Double-click logo to access secret Admin Panel) -->
+                <a href="#" ondblclick="openAdminModal(); return false;" title="Double-click for Admin Access" class="flex items-center space-x-3 shrink-0 group cursor-pointer">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                        <span class="font-black text-navy-950 text-xl tracking-tight">24</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-black text-xl tracking-tight leading-none text-white">JUNE 24</span>
+                        <span class="text-[9px] font-bold text-gold-400 tracking-widest uppercase">ENTERPRISE STORE</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Search Bar -->
+                <div class="hidden md:flex flex-grow max-w-lg relative">
+                    <input type="text" id="desktop-search" onkeyup="searchProducts(this.value)" placeholder="Search boots, cadet uniforms, jerseys, sneakers..." class="w-full bg-navy-950 border border-slate-700 text-slate-200 placeholder-slate-400 text-xs rounded-full pl-10 pr-10 py-2.5 focus:outline-none focus:border-gold-500">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+                    <button onclick="clearSearch()" class="absolute right-3 top-2.5 text-slate-400 hover:text-white">
+                        <i class="fa-solid fa-xmark text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Icons & Actions -->
+                <div class="flex items-center space-x-3 sm:space-x-5">
+                    <!-- Wishlist -->
+                    <button onclick="openWishlistModal()" class="relative p-2 text-slate-300 hover:text-gold-400 transition-colors">
+                        <i class="fa-regular fa-heart text-xl"></i>
+                        <span id="wishlist-count" class="absolute -top-1 -right-1 bg-red-500 text-white font-bold text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                    </button>
+
+                    <!-- Cart Trigger -->
+                    <button onclick="toggleCartDrawer()" class="relative flex items-center space-x-2 bg-gold-500 hover:bg-gold-600 text-navy-950 px-3 py-2 rounded-lg font-bold text-xs transition-colors shadow-md">
+                        <i class="fa-solid fa-bag-shopping text-sm"></i>
+                        <span>Bag</span>
+                        <span id="cart-count" class="bg-navy-950 text-gold-400 font-extrabold text-[10px] px-1.5 py-0.5 rounded-full">0</span>
+                    </button>
+
+                    <!-- Mobile Menu Trigger -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden text-slate-300 hover:text-white p-2">
+                        <i class="fa-solid fa-bars text-xl" id="menu-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-navy-950 border-t border-navy-800 p-4 space-y-3 text-sm">
+            <button onclick="filterCategory('all'); toggleMobileMenu();" class="block w-full text-left py-2 text-gold-400 font-bold border-b border-navy-900">All Products</button>
+            <button onclick="filterCategory('footwear'); toggleMobileMenu();" class="block w-full text-left py-2 text-slate-200 border-b border-navy-900">Boots & Footwear</button>
+            <button onclick="filterCategory('cadet'); toggleMobileMenu();" class="block w-full text-left py-2 text-slate-200 border-b border-navy-900">Cadet & Tactical Gear</button>
+            <button onclick="filterCategory('ghana'); toggleMobileMenu();" class="block w-full text-left py-2 text-slate-200 border-b border-navy-900">Made In Ghana 🇬🇭</button>
+            <button onclick="filterCategory('clothing'); toggleMobileMenu();" class="block w-full text-left py-2 text-slate-200">Streetwear & Apparel</button>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- Hero Slider Banner -->
+        <section class="relative bg-navy-950 text-white overflow-hidden border-b border-navy-800 min-h-[420px] flex items-center">
+            <div id="hero-slider" class="w-full relative h-[420px]">
+                
+                <!-- Slide 1 -->
+                <div class="hero-slide absolute inset-0 opacity-100 transition-opacity duration-700 ease-in-out flex items-center bg-gradient-to-r from-navy-950 via-navy-900 to-navy-950 px-6 sm:px-12">
+                    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-center w-full">
+                        <div class="md:col-span-7 space-y-4 text-center md:text-left z-10">
+                            <span class="bg-gold-500/20 text-gold-400 border border-gold-500/30 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-widest inline-block">Official Enterprise Store</span>
+                            <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
+                                High-Quality Boots, <br><span class="text-gold-400">Cadet & Tactical Gear</span>
+                            </h1>
+                            <p class="text-slate-300 text-xs sm:text-sm max-w-lg">
+                                Serving security agencies, schools, cadet corps, and individual buyers across Ghana with durable footwear and authentic goods.
+                            </p>
+                            <div class="flex flex-wrap items-center justify-center md:justify-start gap-3 pt-2">
+                                <button onclick="filterCategory('cadet')" class="gold-bg-gradient text-navy-950 font-black px-6 py-3 rounded-lg text-xs uppercase tracking-wider shadow-lg">Shop Cadet Gear</button>
+                                <a href="#catalog" class="border border-slate-700 bg-navy-900/60 hover:bg-navy-900 text-white font-bold px-6 py-3 rounded-lg text-xs uppercase tracking-wider">Explore All</a>
+                            </div>
+                        </div>
+                        <div class="md:col-span-5 flex justify-center z-10">
+                            <div class="w-64 h-64 sm:w-80 sm:h-80 rounded-2xl bg-gradient-to-tr from-navy-900 to-slate-800 border border-slate-700/80 p-6 flex flex-col items-center justify-center text-center shadow-2xl relative">
+                                <i class="fa-solid fa-person-military-rifle text-7xl text-gold-400 mb-4 opacity-90"></i>
+                                <span class="font-bold text-base text-white">Cadet & Security Special</span>
+                                <span class="text-xs text-gold-400 mt-1 font-semibold">Starting at GH₵ 280.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="hero-slide absolute inset-0 opacity-0 transition-opacity duration-700 ease-in-out flex items-center bg-gradient-to-r from-navy-950 via-slate-900 to-navy-950 px-6 sm:px-12">
+                    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-center w-full">
+                        <div class="md:col-span-7 space-y-4 text-center md:text-left z-10">
+                            <span class="bg-red-500/20 text-red-400 border border-red-500/30 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-widest inline-block">Made In Ghana 🇬🇭</span>
+                            <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
+                                Authentic Handcrafted <br><span class="text-gold-400">Ghanaian Leather Shoes</span>
+                            </h1>
+                            <p class="text-slate-300 text-xs sm:text-sm max-w-lg">
+                                Locally sourced, handmade leather loafers, slippers, and formal shoes designed for comfort and everyday style.
+                            </p>
+                            <div class="pt-2">
+                                <button onclick="filterCategory('ghana')" class="gold-bg-gradient text-navy-950 font-black px-6 py-3 rounded-lg text-xs uppercase tracking-wider shadow-lg">Browse Ghanaian Wear</button>
+                            </div>
+                        </div>
+                        <div class="md:col-span-5 flex justify-center z-10">
+                            <div class="w-64 h-64 sm:w-80 sm:h-80 rounded-2xl bg-navy-900 border border-gold-500/30 p-6 flex flex-col items-center justify-center text-center shadow-2xl">
+                                <i class="fa-solid fa-shoe-prints text-7xl text-gold-500 mb-4"></i>
+                                <span class="font-bold text-base text-white">Handmade Leather Footwear</span>
+                                <span class="text-xs text-gold-400 mt-1 font-semibold">From GH₵ 190.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide Indicators -->
+            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2 z-20">
+                <button onclick="setSlide(0)" class="slide-dot w-8 h-1.5 rounded-full bg-gold-500"></button>
+                <button onclick="setSlide(1)" class="slide-dot w-2.5 h-1.5 rounded-full bg-slate-600"></button>
+            </div>
+        </section>
+
+        <!-- Trust Badges -->
+        <section class="bg-white border-b border-slate-200 py-6">
+            <div class="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <div class="flex items-center justify-center space-x-3 p-2">
+                    <i class="fa-solid fa-truck-fast text-2xl text-gold-600"></i>
+                    <div class="text-left">
+                        <h4 class="font-bold text-xs text-navy-900">Doorstep Delivery</h4>
+                        <p class="text-[10px] text-slate-500">Fast dispatch across Ghana</p>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center space-x-3 p-2">
+                    <i class="fa-solid fa-mobile-screen-button text-2xl text-gold-600"></i>
+                    <div class="text-left">
+                        <h4 class="font-bold text-xs text-navy-900">MoMo Checkout</h4>
+                        <p class="text-[10px] text-slate-500">MTN, Telecel & Cards</p>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center space-x-3 p-2">
+                    <i class="fa-solid fa-shield-cat text-2xl text-gold-600"></i>
+                    <div class="text-left">
+                        <h4 class="font-bold text-xs text-navy-900">Verified Quality</h4>
+                        <p class="text-[10px] text-slate-500">100% Guaranteed items</p>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center space-x-3 p-2">
+                    <i class="fa-solid fa-headset text-2xl text-gold-600"></i>
+                    <div class="text-left">
+                        <h4 class="font-bold text-xs text-navy-900">Direct Support</h4>
+                        <p class="text-[10px] text-slate-500">WhatsApp & Phone help</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Catalog Section -->
+        <section id="catalog" class="py-12 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Section Header & Filter Pills -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-black text-navy-900">Featured Catalog</h2>
+                        <p class="text-xs text-slate-500 mt-1">Browse our top rated footwear, cadet gear, and merchandise with prices in GH₵</p>
+                    </div>
+
+                    <!-- Filter Tabs -->
+                    <div class="flex items-center space-x-2 overflow-x-auto hide-scrollbar pb-2 md:pb-0">
+                        <button onclick="filterCategory('all')" class="cat-pill active-pill bg-navy-900 text-gold-400 font-bold text-xs px-4 py-2 rounded-full whitespace-nowrap" data-cat="all">All Items</button>
+                        <button onclick="filterCategory('footwear')" class="cat-pill bg-white text-slate-700 hover:bg-slate-200 font-semibold text-xs px-4 py-2 rounded-full border border-slate-300 whitespace-nowrap" data-cat="footwear">Boots & Shoes</button>
+                        <button onclick="filterCategory('cadet')" class="cat-pill bg-white text-slate-700 hover:bg-slate-200 font-semibold text-xs px-4 py-2 rounded-full border border-slate-300 whitespace-nowrap" data-cat="cadet">Cadet & Tactical</button>
+                        <button onclick="filterCategory('ghana')" class="cat-pill bg-white text-slate-700 hover:bg-slate-200 font-semibold text-xs px-4 py-2 rounded-full border border-slate-300 whitespace-nowrap" data-cat="ghana">Made In Ghana 🇬🇭</button>
+                        <button onclick="filterCategory('clothing')" class="cat-pill bg-white text-slate-700 hover:bg-slate-200 font-semibold text-xs px-4 py-2 rounded-full border border-slate-300 whitespace-nowrap" data-cat="clothing">Streetwear</button>
+                    </div>
+                </div>
+
+                <!-- Product Grid -->
+                <div id="product-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                    <!-- Dynamic rendering via JS -->
+                </div>
+
+                <!-- Empty state placeholder -->
+                <div id="no-results" class="hidden text-center py-16">
+                    <i class="fa-solid fa-box-open text-5xl text-slate-300 mb-3"></i>
+                    <h3 class="text-base font-bold text-navy-900">No items found</h3>
+                    <p class="text-xs text-slate-500 mt-1">Try resetting your search query or switching categories.</p>
+                    <button onclick="filterCategory('all'); clearSearch();" class="mt-4 gold-bg-gradient text-navy-950 text-xs font-bold px-4 py-2 rounded-lg">View All Products</button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Made in Ghana Highlight Banner -->
+        <section class="bg-navy-950 text-white py-12 border-t border-b border-navy-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-gradient-to-r from-navy-900 via-navy-800 to-navy-900 rounded-3xl p-8 sm:p-12 border border-gold-500/30 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
+                    <div class="space-y-3 max-w-xl z-10">
+                        <span class="bg-gold-500 text-navy-950 text-[10px] font-black px-2.5 py-1 rounded tracking-wider uppercase">Local Craftsmanship</span>
+                        <h3 class="text-2xl sm:text-4xl font-extrabold">Custom Bulk Orders for Schools & Cadet Units</h3>
+                        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                            Need customized military boots, brass accessories, belts, or school cadet uniforms in large volumes? June 24 Enterprise manufactures and supplies directly at wholesale prices.
+                        </p>
+                        <div class="pt-2">
+                            <a href="https://wa.me/233598113819?text=Hello%20June24%20Enterprise,%20I%20want%20to%20inquire%20about%20a%20bulk%20order." target="_blank" class="gold-bg-gradient text-navy-950 font-black px-6 py-3 rounded-lg text-xs uppercase tracking-wider inline-flex items-center space-x-2">
+                                <i class="fa-brands fa-whatsapp text-sm"></i>
+                                <span>Inquire via WhatsApp</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-auto flex justify-center z-10">
+                        <div class="p-6 bg-navy-950/80 rounded-2xl border border-slate-700 text-center space-y-2">
+                            <i class="fa-solid fa-award text-5xl text-gold-400"></i>
+                            <h4 class="font-bold text-sm text-white">Quality Inspected</h4>
+                            <p class="text-xs text-slate-400">Direct Factory Pricing in Ghana</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Slide-Out Shopping Cart Drawer -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <div onclick="toggleCartDrawer()" class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"></div>
+
+        <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col">
+                
+                <!-- Drawer Header -->
+                <div class="p-4 bg-navy-950 text-white flex items-center justify-between border-b border-navy-800">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-bag-shopping text-gold-400"></i>
+                        <h3 class="font-bold text-sm uppercase tracking-wider">Your Shopping Bag</h3>
+                    </div>
+                    <button onclick="toggleCartDrawer()" class="text-slate-400 hover:text-white p-1">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Cart Items List -->
+                <div id="drawer-items" class="flex-grow overflow-y-auto p-4 space-y-4">
+                    <!-- Dynamic Cart Items -->
+                </div>
+
+                <!-- Coupon & Total Calculation -->
+                <div class="p-4 bg-slate-50 border-t border-slate-200 space-y-3">
+                    
+                    <!-- Coupon Input -->
+                    <div class="flex space-x-2">
+                        <input type="text" id="coupon-code" placeholder="Coupon Code (e.g. JUNE24)" class="w-full bg-white border border-slate-300 text-xs rounded-lg px-3 py-2 uppercase focus:outline-none focus:border-navy-900">
+                        <button onclick="applyCoupon()" class="bg-navy-900 text-white font-bold text-xs px-3 py-2 rounded-lg hover:bg-navy-800">Apply</button>
+                    </div>
+                    <div id="coupon-message" class="text-[10px] font-semibold hidden"></div>
+
+                    <!-- Summary lines -->
+                    <div class="space-y-1 text-xs">
+                        <div class="flex justify-between text-slate-600">
+                            <span>Subtotal</span>
+                            <span id="cart-subtotal" class="font-semibold text-slate-800">GH₵ 0.00</span>
+                        </div>
+                        <div class="flex justify-between text-slate-600">
+                            <span>Delivery Fee (Estimated Accra)</span>
+                            <span id="cart-delivery" class="font-semibold text-slate-800">GH₵ 25.00</span>
+                        </div>
+                        <div id="discount-row" class="flex justify-between text-green-600 font-semibold hidden">
+                            <span>Discount (JUNE24 - 10%)</span>
+                            <span id="cart-discount">-GH₵ 0.00</span>
+                        </div>
+                        <div class="flex justify-between text-sm font-black text-navy-900 pt-2 border-t border-slate-200">
+                            <span>Total Amount</span>
+                            <span id="cart-grand-total" class="text-base text-gold-600">GH₵ 0.00</span>
+                        </div>
+                    </div>
+
+                    <!-- Checkout Form Modal Trigger -->
+                    <button onclick="openCheckoutModal()" class="w-full gold-bg-gradient text-navy-950 font-black text-xs uppercase tracking-wider py-3 rounded-lg shadow-md hover:opacity-95 transition-all">
+                        Proceed to Mobile Money Checkout
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal Dialog -->
+    <div id="checkout-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 text-slate-400 hover:text-navy-900">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <h3 class="text-lg font-black text-navy-900 mb-1 flex items-center">
+                <i class="fa-solid fa-shield-halved text-gold-600 mr-2"></i>
+                <span>Complete Your Order</span>
+            </h3>
+            <p class="text-xs text-slate-500 mb-4">Select your delivery location & Mobile Money provider in Ghana.</p>
+
+            <form onsubmit="processOrder(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Full Name *</label>
+                    <input type="text" required placeholder="Kwame Mensah" class="w-full bg-slate-50 border border-slate-300 text-xs rounded-lg px-3 py-2.5 focus:outline-none focus:border-navy-900">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Phone Number (MoMo) *</label>
+                        <input type="tel" required placeholder="055 123 4567" class="w-full bg-slate-50 border border-slate-300 text-xs rounded-lg px-3 py-2.5 focus:outline-none focus:border-navy-900">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Region *</label>
+                        <select class="w-full bg-slate-50 border border-slate-300 text-xs rounded-lg px-3 py-2.5 focus:outline-none focus:border-navy-900">
+                            <option>Greater Accra</option>
+                            <option>Ashanti (Kumasi)</option>
+                            <option>Western (Takoradi)</option>
+                            <option>Central (Cape Coast)</option>
+                            <option>Eastern (Koforidua)</option>
+                            <option>Other Region in Ghana</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Delivery Address / Landmark *</label>
+                    <input type="text" required placeholder="e.g. Madina Market / East Legon near Shell" class="w-full bg-slate-50 border border-slate-300 text-xs rounded-lg px-3 py-2.5 focus:outline-none focus:border-navy-900">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-2">Payment Option (Paystack Demo) *</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <label class="border border-slate-300 p-2.5 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-gold-500 text-center">
+                            <input type="radio" name="payment" value="mtn" checked class="mb-1 accent-gold-500">
+                            <span class="text-[10px] font-bold text-navy-900">MTN MoMo</span>
+                        </label>
+                        <label class="border border-slate-300 p-2.5 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-gold-500 text-center">
+                            <input type="radio" name="payment" value="telecel" class="mb-1 accent-gold-500">
+                            <span class="text-[10px] font-bold text-navy-900">Telecel Cash</span>
+                        </label>
+                        <label class="border border-slate-300 p-2.5 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-gold-500 text-center">
+                            <input type="radio" name="payment" value="card" class="mb-1 accent-gold-500">
+                            <span class="text-[10px] font-bold text-navy-900">Visa / Mastercard</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="bg-navy-950 text-white p-3 rounded-lg text-xs flex justify-between items-center mt-2">
+                    <span>Payable Total:</span>
+                    <span id="checkout-final-total" class="font-extrabold text-gold-400 text-sm">GH₵ 0.00</span>
+                </div>
+
+                <button type="submit" class="w-full gold-bg-gradient text-navy-950 font-black text-xs uppercase tracking-wider py-3 rounded-lg shadow-lg">
+                    Confirm & Pay via MoMo
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Quick View Product Modal -->
+    <div id="quickview-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
+            <button onclick="closeQuickView()" class="absolute top-4 right-4 text-slate-400 hover:text-navy-900">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div id="quickview-content">
+                <!-- Rendered dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Modal -->
+    <div id="wishlist-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button onclick="closeWishlistModal()" class="absolute top-4 right-4 text-slate-400 hover:text-navy-900">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 class="text-base font-bold text-navy-900 mb-3 flex items-center">
+                <i class="fa-solid fa-heart text-red-500 mr-2"></i>
+                <span>Your Saved Wishlist</span>
+            </h3>
+            <div id="wishlist-items" class="space-y-3 max-h-60 overflow-y-auto pr-1">
+                <!-- Rendered dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-navy-950 text-slate-400 text-xs border-t border-navy-800 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                
+                <!-- Brand Info -->
+                <div class="space-y-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 rounded bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center text-navy-950 font-black">
+                            24
+                        </div>
+                        <span class="font-extrabold text-white text-sm">JUNE 24 ENTERPRISE</span>
+                    </div>
+                    <p class="leading-relaxed text-slate-400">
+                        Ghana's trusted general trading company specializing in security & cadet footwear, tactical gear, custom uniforms, and casual footwear.
+                    </p>
+                </div>
+
+                <!-- Quick Categories -->
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-3">Popular Categories</h4>
+                    <ul class="space-y-2">
+                        <li><button onclick="filterCategory('cadet')" class="hover:text-gold-400 transition-colors">Tactical & Cadet Boots</button></li>
+                        <li><button onclick="filterCategory('ghana')" class="hover:text-gold-400 transition-colors">Made In Ghana Footwear</button></li>
+                        <li><button onclick="filterCategory('clothing')" class="hover:text-gold-400 transition-colors">Jerseys & Streetwear</button></li>
+                        <li><button onclick="filterCategory('footwear')" class="hover:text-gold-400 transition-colors">Formal & Officer Shoes</button></li>
+                    </ul>
+                </div>
+
+                <!-- Contact & Delivery -->
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-3">Store Location & Contact</h4>
+                    <ul class="space-y-2">
+                        <li><i class="fa-solid fa-location-dot text-gold-400 mr-2"></i> Accra, Greater Accra Region, Ghana</li>
+                        <li><i class="fa-solid fa-phone text-gold-400 mr-2"></i> +233 (0) 59 811 3819</li>
+                        <li><i class="fa-solid fa-envelope text-gold-400 mr-2"></i> sales@june24enterprise.com</li>
+                        <li><i class="fa-solid fa-clock text-gold-400 mr-2"></i> Mon - Sat: 8:00 AM - 6:00 PM</li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter & MoMo Badges -->
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-3">10% Off First Order</h4>
+                    <p class="text-slate-400 mb-3">Subscribe to get secret discount codes sent to your phone or email.</p>
+                    <form onsubmit="handleNewsletter(event)" class="flex mb-4">
+                        <input type="email" required placeholder="Enter Email" class="bg-navy-900 border border-slate-700 text-white px-3 py-2 rounded-l-lg w-full text-xs focus:outline-none">
+                        <button type="submit" class="gold-bg-gradient text-navy-950 px-3 font-bold rounded-r-lg">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+                    <div class="flex items-center space-x-2 text-slate-400 text-lg">
+                        <i class="fa-brands fa-cc-visa hover:text-white"></i>
+                        <i class="fa-brands fa-cc-mastercard hover:text-white"></i>
+                        <span class="text-[10px] font-bold bg-gold-500/20 text-gold-400 px-2 py-0.5 rounded">MTN MoMo</span>
+                        <span class="text-[10px] font-bold bg-red-500/20 text-red-400 px-2 py-0.5 rounded">Telecel</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="border-t border-navy-900 pt-6 flex flex-col sm:flex-row items-center justify-between text-slate-500">
+                <p>&copy; 2026 June 24 Enterprise Ghana. All rights reserved.</p>
+                <div class="flex space-x-4 mt-3 sm:mt-0 text-slate-400 text-sm">
+                    <a href="https://wa.me/233598113819" target="_blank" class="hover:text-gold-400"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#" class="hover:text-gold-400"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="hover:text-gold-400"><i class="fa-brands fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BACK-END ADMIN MANAGEMENT & PRODUCT UPLOAD MODAL -->
+    <div id="admin-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl border border-slate-200 relative max-h-[90vh] overflow-y-auto text-slate-800">
+            <button onclick="closeAdminModal()" class="absolute top-4 right-4 text-slate-400 hover:text-navy-900">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <!-- Admin Authentication Login View -->
+            <div id="admin-auth-view" class="space-y-4 py-4">
+                <div class="text-center space-y-1">
+                    <div class="w-12 h-12 bg-navy-950 text-gold-400 rounded-xl flex items-center justify-center mx-auto text-xl font-bold">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h3 class="text-lg font-black text-navy-900">Store Admin Login</h3>
+                    <p class="text-xs text-slate-500">Log in to publish products and upload item images.</p>
+                </div>
+                <form onsubmit="handleAdminLogin(event)" class="space-y-3 max-w-sm mx-auto pt-2">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Admin Email</label>
+                        <input type="email" required value="admin@june24.com" class="w-full bg-slate-50 border border-slate-300 text-xs rounded-lg px-3 py-2.5 focus:outline-none focus:border-navy-900">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Password</label>
+                        <input type="password" required value="••••••••" class="w-full bg-slate-50 border border-slate-300 text-xs rounded-lg px-3 py-2.5 focus:outline-none focus:border-navy-900">
+                    </div>
+                    <button type="submit" class="w-full gold-bg-gradient text-navy-950 font-black text-xs uppercase tracking-wider py-3 rounded-lg shadow-md">
+                        Sign In To Admin Portal
+                    </button>
+                    <button type="button" onclick="bypassDemoLogin()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs py-2 rounded-lg border border-slate-300">
+                        ⚡ Quick Demo Admin Access
+                    </button>
+                </form>
+            </div>
+
+            <!-- Admin Dashboard & Upload Panel View -->
+            <div id="admin-panel-view" class="hidden space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                    <div>
+                        <h3 class="text-base font-black text-navy-900 flex items-center">
+                            <i class="fa-solid fa-cloud-arrow-up text-gold-600 mr-2"></i>
+                            <span>Upload & Manage Store Products</span>
+                        </h3>
+                        <p class="text-xs text-slate-500">Add new footwear items, upload images, and set prices in GH₵</p>
+                    </div>
+                    <button onclick="handleAdminLogout()" class="text-xs text-red-600 font-bold hover:underline">
+                        Logout
+                    </button>
+                </div>
+
+                <!-- Admin Action Tabs -->
+                <div class="flex border-b border-slate-200 text-xs font-bold space-x-4">
+                    <button id="tab-btn-upload" onclick="switchAdminTab('upload')" class="pb-2 border-b-2 border-navy-900 text-navy-900">Upload Product</button>
+                    <button id="tab-btn-settings" onclick="switchAdminTab('settings')" class="pb-2 border-b-2 border-transparent text-slate-500 hover:text-navy-900">Change Admin Logins</button>
+                </div>
+
+                <!-- Product Upload Form Section -->
+                <div id="admin-tab-upload">
+                    <form onsubmit="handleProductUpload(event)" class="space-y-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div class="flex items-center justify-between">
+                            <h4 id="form-title" class="text-xs font-black text-navy-950 uppercase tracking-wider">Publish New Product</h4>
+                            <button type="button" id="cancel-edit-btn" onclick="resetProductForm()" class="hidden text-[10px] font-bold text-red-600 bg-red-50 border border-red-200 px-2 py-0.5 rounded hover:bg-red-100">
+                                Cancel Editing
+                            </button>
+                        </div>
+                        <input type="hidden" id="upload-edit-id" value="">
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-700 mb-1">Product Title *</label>
+                                <input type="text" id="upload-name" required placeholder="e.g. ASICS Gel-Picteer Sneakers" class="w-full bg-white border border-slate-300 text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-navy-900">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-700 mb-1">Category *</label>
+                                <select id="upload-category" class="w-full bg-white border border-slate-300 text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-navy-900">
+                                    <option value="footwear">Boots & Footwear</option>
+                                    <option value="cadet">Cadet & Tactical Gear</option>
+                                    <option value="ghana">Made In Ghana 🇬🇭</option>
+                                    <option value="clothing">Streetwear & Apparel</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-700 mb-1">Price in GH₵ *</label>
+                                <input type="number" step="0.01" id="upload-price" required placeholder="420.00" class="w-full bg-white border border-slate-300 text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-navy-900">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-700 mb-1">Badge Tag</label>
+                                <input type="text" id="upload-tag" placeholder="e.g. Hot Release / Best Seller" class="w-full bg-white border border-slate-300 text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-navy-900">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-700 mb-1">Fallback Icon</label>
+                                <select id="upload-icon" class="w-full bg-white border border-slate-300 text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-navy-900">
+                                    <option value="fa-shoe-prints">Shoes / Sneakers</option>
+                                    <option value="fa-person-military-rifle">Tactical Boots</option>
+                                    <option value="fa-shirt">Shirt / Jersey</option>
+                                    <option value="fa-shield-halved">Gear / Accessories</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Product Description Field -->
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-700 mb-1">Product Description</label>
+                            <textarea id="upload-description" rows="2" placeholder="Enter details such as material, sizing options, or usage instructions..." class="w-full bg-white border border-slate-300 text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-navy-900"></textarea>
+                        </div>
+
+                        <!-- Direct File Upload Input -->
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-700 mb-1">Upload Product Images (.png / .jpg) - Select Multiple *</label>
+                            <div class="flex items-center gap-3">
+                                <input type="file" id="upload-file" accept="image/*" multiple onchange="previewImageFiles(event)" class="w-full bg-white border border-slate-300 text-xs rounded-lg p-1.5 focus:outline-none file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-navy-900 file:text-gold-400 hover:file:bg-navy-950">
+                            </div>
+                            <input type="hidden" id="upload-image-url">
+                            <!-- Multi-Image Preview Container with Cover Selection -->
+                            <div id="image-preview-box" class="hidden mt-2 p-2.5 bg-white rounded-lg border border-slate-300 space-y-2">
+                                <div class="text-[11px] font-bold text-navy-900 flex items-center justify-between">
+                                    <span>Uploaded Gallery (<span id="preview-count">0</span> images) — <span class="text-gold-600">Click an image to set as Leading Cover</span></span>
+                                    <span class="text-green-600"><i class="fa-solid fa-circle-check mr-1"></i> Ready</span>
+                                </div>
+                                <div id="preview-thumbnails" class="flex items-center space-x-2 overflow-x-auto py-1"></div>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="submit-upload-btn" class="w-full gold-bg-gradient text-navy-950 font-black text-xs uppercase tracking-wider py-3 rounded-lg shadow-md hover:opacity-95">
+                            Publish Product To Live Store Catalog
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Admin Settings / Credentials Form Section -->
+                <div id="admin-tab-settings" class="hidden">
+                    <form onsubmit="updateAdminCredentials(event)" class="space-y-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <h4 class="text-xs font-black text-navy-950 uppercase tracking-wider">Change Admin Login Credentials</h4>
+                        
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-700 mb-1">New Admin Email *</label>
+                            <input type="email" id="new-admin-email" required placeholder="e.g. admin@june24enterprise.com" class="w-full bg-white border border-slate-300 text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-navy-900">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-700 mb-1">New Password *</label>
+                            <input type="password" id="new-admin-password" required placeholder="Enter new strong password" class="w-full bg-white border border-slate-300 text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-navy-900">
+                        </div>
+
+                        <button type="submit" class="w-full gold-bg-gradient text-navy-950 font-black text-xs uppercase tracking-wider py-3 rounded-lg shadow-md hover:opacity-95">
+                            Update & Save New Logins
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Current Inventory Quick List -->
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <h4 class="text-xs font-black text-navy-950 uppercase tracking-wider">Live Store Inventory (<span id="admin-item-count">0</span> items)</h4>
+                        <button onclick="restoreDefaultProducts()" class="text-[10px] font-bold text-navy-900 hover:underline">Reset Catalog Defaults</button>
+                    </div>
+                    <div id="admin-inventory-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+                        <!-- Items rendered dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Code -->
+    <script>
+        // Initial Products Database (Base Fallback including ASICS Sneakers)
+        const defaultProducts = [
+            { id: 1, name: "ASICS Gel-Picteer Trail Sneakers", category: "footwear", price: 420, icon: "fa-shoe-prints", tag: "Hot Release", imageUrls: ["ASICS Gel-Picteer Trail Sneakers.png"], description: "Rugged trail sneakers featuring gel cushioning and reinforced rubber outsole for superior outdoor grip." },
+            { id: 2, name: "High-Cut Tactical Military Boot", category: "cadet", price: 340, icon: "fa-person-military-rifle", tag: "Best Seller", description: "Heavy-duty high-cut tactical boots for security officers and cadets. Features water-resistant leather." },
+            { id: 3, name: "Made in Ghana Handmade Leather Loafers", category: "ghana", price: 220, icon: "fa-shoe-prints", tag: "Ghana Crafted", description: "100% genuine Ghanaian handcrafted leather loafers. Comfortable and durable for formal or semi-formal wear." },
+            { id: 4, name: "School Cadet Parade Officers Shoe", category: "cadet", price: 280, icon: "fa-user-tie", tag: "Cadet Spec", description: "Polished Oxford-style parade shoes designed for school cadet corps inspections and official events." },
+            { id: 5, name: "Ghana National Team Streetwear Jersey", category: "clothing", price: 160, icon: "fa-shirt", tag: "Official Edition", description: "Breathable polyester fan jersey with authentic national emblem embroidery." },
+            { id: 6, name: "Heavy Duty Security Belt & Accessories Set", category: "cadet", price: 120, icon: "fa-shield-halved", tag: "Gear", description: "Complete tactical utility belt with heavy-duty brass buckle and pouch attachments." },
+            { id: 7, name: "Handcrafted Male Native Leather Slippers", category: "ghana", price: 180, icon: "fa-shoe-prints", tag: "100% Leather", description: "Traditional Ghanaian leather slippers crafted for longevity and traditional occasions." },
+            { id: 8, name: "Low-Top Urban Casual Sneakers", category: "footwear", price: 250, icon: "fa-shoe-prints", tag: "New Arrival", description: "Lightweight casual sneakers designed for everyday street wear." },
+            { id: 9, name: "Customized Enterprise Crewneck Sweater", category: "clothing", price: 195, icon: "fa-shirt", tag: "Apparel", description: "Soft fleece cotton crewneck sweater featuring June 24 Enterprise insignia." }
+        ];
+
+        let products = [...defaultProducts];
+        let cart = [];
+        let wishlist = [];
+        let appliedDiscount = 0;
+        let activeSlideIndex = 0;
+        let isAdminLoggedIn = false;
+        let currentUploadedImagesBase64 = [];
+        let editingProductId = null;
+
+        // Default Admin Login Credentials
+        let adminCredentials = {
+            email: "admin@june24.com",
+            password: "password123"
+        };
+
+        // Window load initialization
+        window.onload = function() {
+            try {
+                const savedCreds = localStorage.getItem('june24_admin_creds');
+                if (savedCreds) {
+                    adminCredentials = JSON.parse(savedCreds);
+                }
+            } catch(e) {}
+
+            loadStoreCatalog();
+            startHeroAutoSlide();
+        };
+
+        // Load Store Catalog (Local Storage + Firestore sync fallback)
+        function loadStoreCatalog() {
+            let localItems = null;
+            try {
+                const storedCatalog = localStorage.getItem('june24_local_catalog');
+                if (storedCatalog) {
+                    localItems = JSON.parse(storedCatalog);
+                }
+            } catch (e) {
+                console.warn("Local storage read error:", e);
+            }
+
+            if (window.db && window.onSnapshot && window.collection) {
+                try {
+                    const appId = window.appId || 'june24-enterprise-app';
+                    const catalogRef = window.collection(window.db, 'artifacts', appId, 'public', 'data', 'catalog');
+                    
+                    window.onSnapshot(catalogRef, (snapshot) => {
+                        if (!snapshot.empty) {
+                            const cloudItems = [];
+                            snapshot.forEach((docSnap) => {
+                                cloudItems.push({ id: docSnap.id, ...docSnap.data() });
+                            });
+                            
+                            // Merge cloud items with local items, avoiding duplication
+                            const combined = [...cloudItems];
+                            if (localItems) {
+                                localItems.forEach(locItem => {
+                                    if (!combined.some(c => String(c.id) === String(locItem.id))) {
+                                        combined.push(locItem);
+                                    }
+                                });
+                            }
+                            products = combined;
+                            saveCatalogToLocalStorage();
+                        } else {
+                            products = localItems && localItems.length > 0 ? localItems : [...defaultProducts];
+                        }
+                        renderCatalog(products);
+                        if (isAdminLoggedIn) renderAdminInventory();
+                    }, (err) => {
+                        console.warn("Firestore snapshot listener notice:", err);
+                        products = localItems && localItems.length > 0 ? localItems : [...defaultProducts];
+                        renderCatalog(products);
+                    });
+                    return;
+                } catch (e) {
+                    console.warn("Cloud initialization fallback:", e);
+                }
+            }
+            
+            products = localItems && localItems.length > 0 ? localItems : [...defaultProducts];
+            renderCatalog(products);
+        }
+
+        // Helper to persist current products state to localStorage
+        function saveCatalogToLocalStorage() {
+            try {
+                localStorage.setItem('june24_local_catalog', JSON.stringify(products));
+            } catch (e) {
+                console.warn("Could not save to localStorage:", e);
+            }
+        }
+
+        // Render Catalog Grid in UI
+        function renderCatalog(items) {
+            const grid = document.getElementById('product-grid');
+            const noResults = document.getElementById('no-results');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            if (!items || items.length === 0) {
+                if (noResults) noResults.classList.remove('hidden');
+                return;
+            } else {
+                if (noResults) noResults.classList.add('hidden');
+            }
+
+            items.forEach(product => {
+                const isWishlisted = wishlist.includes(product.id);
+                const priceNum = parseFloat(product.price) || 0;
+                const images = product.imageUrls && product.imageUrls.length > 0 ? product.imageUrls : (product.imageUrl ? [product.imageUrl] : []);
+                
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl border border-slate-200 p-4 hover:shadow-xl transition-all flex flex-col justify-between group relative overflow-hidden";
+                card.innerHTML = `
+                    <div>
+                        <!-- Tag Badge & Wishlist Heart -->
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="bg-navy-950 text-gold-400 text-[9px] font-black uppercase px-2 py-0.5 rounded">${product.tag || 'Available'}</span>
+                            <button onclick="toggleWishlist('${product.id}')" class="text-slate-300 hover:text-red-500 transition-colors p-1">
+                                <i class="${isWishlisted ? 'fa-solid text-red-500' : 'fa-regular'} fa-heart text-base"></i>
+                            </button>
+                        </div>
+
+                        <!-- Image / Icon Container -->
+                        <div onclick="openQuickView('${product.id}')" class="h-36 sm:h-44 bg-slate-100 rounded-xl flex items-center justify-center mb-3 cursor-pointer group-hover:bg-slate-200/80 transition-colors relative overflow-hidden">
+                            ${images.length > 0 ? 
+                                `<img src="${images[0]}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt="${product.name}">` : 
+                                `<i class="fa-solid ${product.icon || 'fa-box'} text-4xl sm:text-5xl text-navy-900 opacity-80"></i>`
+                            }
+                            <span class="absolute inset-0 bg-navy-950/20 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center text-white text-xs font-bold">
+                                Quick View
+                            </span>
+                        </div>
+
+                        <h4 class="font-bold text-navy-900 text-xs sm:text-sm leading-snug mb-1 line-clamp-2">${product.name}</h4>
+                        <p class="text-xs font-black text-slate-900 mb-3">GH₵ ${priceNum.toFixed(2)}</p>
+                    </div>
+
+                    <button onclick="addToCart('${product.id}')" class="w-full gold-bg-gradient hover:opacity-90 text-navy-950 font-black text-xs py-2.5 rounded-lg transition-all flex items-center justify-center space-x-1.5 shadow-sm">
+                        <i class="fa-solid fa-cart-plus text-xs"></i>
+                        <span>Add To Cart</span>
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Multi-image reader preview helper with Cover Selector for Admin Panel
+        function previewImageFiles(event) {
+            const files = event ? event.target.files : null;
+            if (files && files.length > 0) {
+                currentUploadedImagesBase64 = [];
+                let loadedCount = 0;
+                Array.from(files).forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        currentUploadedImagesBase64.push(e.target.result);
+                        loadedCount++;
+                        if (loadedCount === files.length) {
+                            renderPreviewThumbnails();
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                });
+            } else {
+                renderPreviewThumbnails();
+            }
+        }
+
+        function renderPreviewThumbnails() {
+            const previewBox = document.getElementById('image-preview-box');
+            const previewThumbnails = document.getElementById('preview-thumbnails');
+            const previewCount = document.getElementById('preview-count');
+            if (!previewBox || !previewThumbnails) return;
+
+            if (currentUploadedImagesBase64.length > 0) {
+                previewBox.classList.remove('hidden');
+                previewThumbnails.innerHTML = '';
+                if (previewCount) previewCount.innerText = currentUploadedImagesBase64.length;
+
+                currentUploadedImagesBase64.forEach((imgUrl, index) => {
+                    const isCover = index === 0;
+                    const thumb = document.createElement('div');
+                    thumb.className = `relative w-14 h-14 rounded-lg border-2 ${isCover ? 'border-gold-500 ring-2 ring-gold-400' : 'border-slate-300'} overflow-hidden shrink-0 group cursor-pointer`;
+                    thumb.onclick = () => setCoverImage(index);
+                    thumb.innerHTML = `
+                        <img src="${imgUrl}" class="w-full h-full object-cover">
+                        ${isCover ? '<span class="absolute top-0 left-0 bg-gold-500 text-navy-950 font-black text-[8px] px-1 py-0.2 rounded-br">COVER</span>' : ''}
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-[9px] font-bold text-white text-center p-0.5">
+                            Set Cover
+                        </div>
+                    `;
+                    previewThumbnails.appendChild(thumb);
+                });
+            } else {
+                previewBox.classList.add('hidden');
+            }
+        }
+
+        function setCoverImage(index) {
+            if (index > 0 && index < currentUploadedImagesBase64.length) {
+                const cover = currentUploadedImagesBase64.splice(index, 1)[0];
+                currentUploadedImagesBase64.unshift(cover);
+                renderPreviewThumbnails();
+                showToast("Cover Updated", "Selected image set as primary catalog cover.");
+            }
+        }
+
+        // Admin Modal Controls
+        function openAdminModal() {
+            const modal = document.getElementById('admin-modal');
+            const authView = document.getElementById('admin-auth-view');
+            const panelView = document.getElementById('admin-panel-view');
+
+            if (!modal) return;
+            modal.classList.remove('hidden');
+
+            if (isAdminLoggedIn) {
+                authView.classList.add('hidden');
+                panelView.classList.remove('hidden');
+                renderAdminInventory();
+            } else {
+                authView.classList.remove('hidden');
+                panelView.classList.add('hidden');
+            }
+        }
+
+        function closeAdminModal() {
+            const modal = document.getElementById('admin-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const emailInput = e.target.querySelector('input[type="email"]').value;
+            const passInput = e.target.querySelector('input[type="password"]').value;
+
+            if (emailInput === adminCredentials.email && passInput === adminCredentials.password) {
+                isAdminLoggedIn = true;
+                showToast("Admin Authenticated", "Welcome to June 24 Control Panel");
+                openAdminModal();
+            } else {
+                showToast("Login Failed", "Invalid email or password!");
+            }
+        }
+
+        function switchAdminTab(tab) {
+            const uploadTab = document.getElementById('admin-tab-upload');
+            const settingsTab = document.getElementById('admin-tab-settings');
+            const btnUpload = document.getElementById('tab-btn-upload');
+            const btnSettings = document.getElementById('tab-btn-settings');
+
+            if (tab === 'upload') {
+                uploadTab.classList.remove('hidden');
+                settingsTab.classList.add('hidden');
+                btnUpload.className = "pb-2 border-b-2 border-navy-900 text-navy-900 font-bold";
+                btnSettings.className = "pb-2 border-b-2 border-transparent text-slate-500 hover:text-navy-900 font-bold";
+            } else {
+                uploadTab.classList.add('hidden');
+                settingsTab.classList.remove('hidden');
+                btnUpload.className = "pb-2 border-b-2 border-transparent text-slate-500 hover:text-navy-900 font-bold";
+                btnSettings.className = "pb-2 border-b-2 border-navy-900 text-navy-900 font-bold";
+                
+                document.getElementById('new-admin-email').value = adminCredentials.email;
+                document.getElementById('new-admin-password').value = adminCredentials.password;
+            }
+        }
+
+        function updateAdminCredentials(e) {
+            e.preventDefault();
+            const newEmail = document.getElementById('new-admin-email').value.trim();
+            const newPass = document.getElementById('new-admin-password').value.trim();
+
+            if (!newEmail || !newPass) {
+                showToast("Error", "Please fill in all credential fields.");
+                return;
+            }
+
+            adminCredentials = { email: newEmail, password: newPass };
+            try {
+                localStorage.setItem('june24_admin_creds', JSON.stringify(adminCredentials));
+            } catch(err) {}
+
+            showToast("Credentials Updated!", "Your new admin email and password have been saved.");
+            switchAdminTab('upload');
+        }
+
+        function bypassDemoLogin() {
+            isAdminLoggedIn = true;
+            showToast("Demo Access Granted", "Store Upload Dashboard Ready");
+            openAdminModal();
+        }
+
+        function handleAdminLogout() {
+            isAdminLoggedIn = false;
+            showToast("Logged Out", "Admin session ended.");
+            closeAdminModal();
+        }
+
+        function editProduct(id) {
+            const product = products.find(p => String(p.id) === String(id));
+            if (!product) return;
+
+            editingProductId = String(id);
+            document.getElementById('upload-edit-id').value = editingProductId;
+            document.getElementById('upload-name').value = product.name;
+            document.getElementById('upload-category').value = product.category || 'footwear';
+            document.getElementById('upload-price').value = product.price;
+            document.getElementById('upload-tag').value = product.tag || '';
+            document.getElementById('upload-icon').value = product.icon || 'fa-shoe-prints';
+            document.getElementById('upload-description').value = product.description || '';
+
+            currentUploadedImagesBase64 = product.imageUrls && product.imageUrls.length > 0 ? [...product.imageUrls] : (product.imageUrl ? [product.imageUrl] : []);
+            renderPreviewThumbnails();
+
+            document.getElementById('form-title').innerText = "Edit Product Details";
+            document.getElementById('submit-upload-btn').innerText = "Update Product Details";
+            document.getElementById('cancel-edit-btn').classList.remove('hidden');
+
+            switchAdminTab('upload');
+        }
+
+        function resetProductForm() {
+            editingProductId = null;
+            document.getElementById('upload-edit-id').value = '';
+            const form = document.querySelector('#admin-tab-upload form');
+            if (form) form.reset();
+
+            currentUploadedImagesBase64 = [];
+            renderPreviewThumbnails();
+
+            document.getElementById('form-title').innerText = "Publish New Product";
+            document.getElementById('submit-upload-btn').innerText = "Publish Product To Live Store Catalog";
+            document.getElementById('cancel-edit-btn').classList.add('hidden');
+        }
+
+        async function handleProductUpload(e) {
+            e.preventDefault();
+            const editId = document.getElementById('upload-edit-id').value;
+            const name = document.getElementById('upload-name').value;
+            const category = document.getElementById('upload-category').value;
+            const price = parseFloat(document.getElementById('upload-price').value);
+            const tag = document.getElementById('upload-tag').value;
+            const icon = document.getElementById('upload-icon').value;
+            const description = document.getElementById('upload-description').value;
+            
+            const imageUrls = currentUploadedImagesBase64.length > 0 ? [...currentUploadedImagesBase64] : ["ASICS Gel-Picteer Trail Sneakers.png"];
+
+            if (editId) {
+                const index = products.findIndex(p => String(p.id) === String(editId));
+                if (index !== -1) {
+                    const updatedProduct = { ...products[index], name, category, price, tag, icon, description, imageUrls };
+                    products[index] = updatedProduct;
+
+                    try {
+                        if (window.db && window.setDoc && window.doc) {
+                            const appId = window.appId || 'june24-enterprise-app';
+                            const itemRef = window.doc(window.db, 'artifacts', appId, 'public', 'data', 'catalog', String(editId));
+                            await window.setDoc(itemRef, updatedProduct);
+                        }
+                    } catch (err) {
+                        console.warn("Cloud update notice:", err);
+                    }
+
+                    showToast("Product Updated", `${name} details saved.`);
+                }
+            } else {
+                const newId = 'prod_' + Date.now();
+                const newProduct = { id: newId, name, category, price, tag, icon, description, imageUrls };
+
+                try {
+                    if (window.db && window.setDoc && window.doc) {
+                        const appId = window.appId || 'june24-enterprise-app';
+                        const itemRef = window.doc(window.db, 'artifacts', appId, 'public', 'data', 'catalog', String(newId));
+                        await window.setDoc(itemRef, newProduct);
+                    }
+                } catch (err) {
+                    console.warn("Cloud save notice:", err);
+                }
+
+                products.unshift(newProduct);
+                showToast("Product Published", `${name} added to catalog.`);
+            }
+
+            saveCatalogToLocalStorage();
+            renderCatalog(products);
+            renderAdminInventory();
+            resetProductForm();
+        }
+
+        async function deleteProduct(id) {
+            products = products.filter(p => String(p.id) !== String(id));
+            try {
+                if (window.db && window.deleteDoc && window.doc) {
+                    const appId = window.appId || 'june24-enterprise-app';
+                    const itemRef = window.doc(window.db, 'artifacts', appId, 'public', 'data', 'catalog', String(id));
+                    await window.deleteDoc(itemRef);
+                }
+            } catch (err) {
+                console.warn("Cloud delete notice:", err);
+            }
+
+            saveCatalogToLocalStorage();
+            renderCatalog(products);
+            renderAdminInventory();
+            showToast("Item Removed", "Product removed from store inventory.");
+        }
+
+        function restoreDefaultProducts() {
+            products = [...defaultProducts];
+            saveCatalogToLocalStorage();
+            renderCatalog(products);
+            renderAdminInventory();
+            showToast("Catalog Reset", "Restored default product list.");
+        }
+
+        function renderAdminInventory() {
+            const list = document.getElementById('admin-inventory-list');
+            const countElem = document.getElementById('admin-item-count');
+            if (!list) return;
+            
+            if (countElem) countElem.innerText = products.length;
+            list.innerHTML = '';
+
+            products.forEach(p => {
+                const row = document.createElement('div');
+                row.className = 'flex items-center justify-between p-2 bg-white rounded border border-slate-200 text-xs gap-2';
+                row.innerHTML = `
+                    <div class="flex items-center space-x-2 truncate">
+                        <i class="fa-solid ${p.icon || 'fa-box'} text-navy-900"></i>
+                        <span class="font-bold text-navy-900 truncate max-w-[170px]">${p.name}</span>
+                        <span class="text-gold-600 font-bold">GH₵ ${parseFloat(p.price).toFixed(2)}</span>
+                    </div>
+                    <div class="flex items-center space-x-1 shrink-0">
+                        <button onclick="editProduct('${p.id}')" class="text-navy-950 font-bold px-2 py-0.5 rounded text-[10px] gold-bg-gradient hover:opacity-90">
+                            Edit
+                        </button>
+                        <button onclick="deleteProduct('${p.id}')" class="text-red-500 hover:text-red-700 font-bold px-2 py-0.5 rounded text-[10px] bg-red-50 border border-red-200">
+                            Delete
+                        </button>
+                    </div>
+                `;
+                list.appendChild(row);
+            });
+        }
+
+        // Filter Category
+        function filterCategory(cat) {
+            document.querySelectorAll('.cat-pill').forEach(btn => {
+                if (btn.dataset.cat === cat) {
+                    btn.classList.add('bg-navy-900', 'text-gold-400');
+                    btn.classList.remove('bg-white', 'text-slate-700');
+                } else {
+                    btn.classList.remove('bg-navy-900', 'text-gold-400');
+                    btn.classList.add('bg-white', 'text-slate-700');
+                }
+            });
+
+            if (cat === 'all') {
+                renderCatalog(products);
+            } else {
+                const filtered = products.filter(p => p.category === cat);
+                renderCatalog(filtered);
+            }
+        }
+
+        // Live Search Products
+        function searchProducts(query) {
+            const cleanQuery = query.toLowerCase().trim();
+            const filtered = products.filter(p => 
+                p.name.toLowerCase().includes(cleanQuery) || 
+                (p.category && p.category.toLowerCase().includes(cleanQuery)) ||
+                (p.tag && p.tag.toLowerCase().includes(cleanQuery))
+            );
+            renderCatalog(filtered);
+        }
+
+        function clearSearch() {
+            const dSearch = document.getElementById('desktop-search');
+            if (dSearch) dSearch.value = '';
+            renderCatalog(products);
+        }
+
+        // Cart & Wishlist Handlers
+        function addToCart(productId) {
+            const product = products.find(p => String(p.id) === String(productId));
+            if (!product) return;
+            const existing = cart.find(c => String(c.id) === String(productId));
+
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+
+            updateCartUI();
+            showToast("Added To Cart", `${product.name} added to your bag.`);
+        }
+
+        function updateCartQty(productId, delta) {
+            const item = cart.find(c => String(c.id) === String(productId));
+            if (!item) return;
+
+            item.qty += delta;
+            if (item.qty <= 0) {
+                cart = cart.filter(c => String(c.id) !== String(productId));
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            const cartCount = document.getElementById('cart-count');
+            if (cartCount) cartCount.innerText = totalItems;
+
+            const drawerItems = document.getElementById('drawer-items');
+            if (!drawerItems) return;
+            drawerItems.innerHTML = '';
+
+            if (cart.length === 0) {
+                drawerItems.innerHTML = `
+                    <div class="text-center py-12 text-slate-400">
+                        <i class="fa-solid fa-bag-shopping text-4xl mb-2 opacity-50"></i>
+                        <p class="text-xs font-bold">Your cart is currently empty</p>
+                    </div>
+                `;
+            } else {
+                cart.forEach(item => {
+                    const row = document.createElement('div');
+                    row.className = 'flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200';
+                    row.innerHTML = `
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-slate-200 rounded-lg flex items-center justify-center text-navy-900">
+                                <i class="fa-solid ${item.icon || 'fa-box'} text-lg"></i>
+                            </div>
+                            <div>
+                                <h5 class="text-xs font-bold text-navy-900 leading-tight">${item.name}</h5>
+                                <p class="text-[11px] font-semibold text-gold-600">GH₵ ${parseFloat(item.price).toFixed(2)}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="updateCartQty('${item.id}', -1)" class="w-6 h-6 bg-slate-200 hover:bg-slate-300 rounded text-xs font-bold">-</button>
+                            <span class="text-xs font-bold px-1">${item.qty}</span>
+                            <button onclick="updateCartQty('${item.id}', 1)" class="w-6 h-6 bg-slate-200 hover:bg-slate-300 rounded text-xs font-bold">+</button>
+                        </div>
+                    `;
+                    drawerItems.appendChild(row);
+                });
+            }
+
+            calculateTotals();
+        }
+
+        function calculateTotals() {
+            const subtotal = cart.reduce((sum, item) => sum + (parseFloat(item.price) * item.qty), 0);
+            const delivery = subtotal > 0 ? 25 : 0;
+            const discountAmount = subtotal * appliedDiscount;
+            const grandTotal = Math.max(0, subtotal + delivery - discountAmount);
+
+            const elemSub = document.getElementById('cart-subtotal');
+            const elemDel = document.getElementById('cart-delivery');
+            const elemGrand = document.getElementById('cart-grand-total');
+            const elemFinal = document.getElementById('checkout-final-total');
+
+            if (elemSub) elemSub.innerText = `GH₵ ${subtotal.toFixed(2)}`;
+            if (elemDel) elemDel.innerText = `GH₵ ${delivery.toFixed(2)}`;
+            if (elemGrand) elemGrand.innerText = `GH₵ ${grandTotal.toFixed(2)}`;
+            if (elemFinal) elemFinal.innerText = `GH₵ ${grandTotal.toFixed(2)}`;
+
+            const discountRow = document.getElementById('discount-row');
+            if (appliedDiscount > 0 && discountRow) {
+                discountRow.classList.remove('hidden');
+                document.getElementById('cart-discount').innerText = `-GH₵ ${discountAmount.toFixed(2)}`;
+            } else if (discountRow) {
+                discountRow.classList.add('hidden');
+            }
+        }
+
+        function applyCoupon() {
+            const input = document.getElementById('coupon-code').value.trim().toUpperCase();
+            const message = document.getElementById('coupon-message');
+            message.classList.remove('hidden', 'text-green-600', 'text-red-500');
+
+            if (input === "JUNE24") {
+                appliedDiscount = 0.10;
+                message.innerText = "10% Discount applied successfully!";
+                message.classList.add('text-green-600');
+                calculateTotals();
+            } else {
+                appliedDiscount = 0;
+                message.innerText = "Invalid coupon code. Try 'JUNE24'.";
+                message.classList.add('text-red-500');
+                calculateTotals();
+            }
+        }
+
+        function toggleCartDrawer() {
+            document.getElementById('cart-drawer').classList.toggle('hidden');
+        }
+
+        function toggleWishlist(id) {
+            const strId = String(id);
+            if (wishlist.includes(strId)) {
+                wishlist = wishlist.filter(wId => wId !== strId);
+                showToast("Removed from Wishlist", "Item removed.");
+            } else {
+                wishlist.push(strId);
+                showToast("Added to Wishlist", "Item saved for later.");
+            }
+            document.getElementById('wishlist-count').innerText = wishlist.length;
+            renderCatalog(products);
+            renderWishlistItems();
+        }
+
+        function openWishlistModal() {
+            renderWishlistItems();
+            document.getElementById('wishlist-modal').classList.remove('hidden');
+        }
+
+        function closeWishlistModal() {
+            document.getElementById('wishlist-modal').classList.add('hidden');
+        }
+
+        function renderWishlistItems() {
+            const container = document.getElementById('wishlist-items');
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (wishlist.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">No saved items yet.</p>`;
+                return;
+            }
+
+            wishlist.forEach(id => {
+                const item = products.find(p => String(p.id) === String(id));
+                if (!item) return;
+                const row = document.createElement('div');
+                row.className = 'flex items-center justify-between p-2.5 bg-slate-50 rounded-lg text-xs';
+                row.innerHTML = `
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid ${item.icon || 'fa-box'} text-navy-900"></i>
+                        <span class="font-bold text-navy-900">${item.name}</span>
+                    </div>
+                    <button onclick="addToCart('${item.id}')" class="gold-bg-gradient text-navy-950 font-bold px-2 py-1 rounded text-[10px]">Add to Cart</button>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function openQuickView(id) {
+            const p = products.find(item => String(item.id) === String(id));
+            if (!p) return;
+            const content = document.getElementById('quickview-content');
+            const images = p.imageUrls && p.imageUrls.length > 0 ? p.imageUrls : (p.imageUrl ? [p.imageUrl] : []);
+            
+            content.innerHTML = `
+                <div class="text-center space-y-3">
+                    <div class="w-full h-48 bg-slate-100 rounded-xl flex items-center justify-center overflow-hidden relative">
+                        ${images.length > 0 ? 
+                            `<img id="qv-main-image" src="${images[0]}" class="w-full h-full object-cover">` : 
+                            `<i class="fa-solid ${p.icon || 'fa-box'} text-6xl text-navy-900"></i>`
+                        }
+                    </div>
+
+                    ${images.length > 1 ? `
+                        <div class="flex items-center justify-center space-x-2 overflow-x-auto py-1">
+                            ${images.map((img, idx) => `
+                                <img src="${img}" onclick="document.getElementById('qv-main-image').src='${img}'" class="w-12 h-12 object-cover rounded-lg border-2 border-slate-300 cursor-pointer hover:border-gold-500">
+                            `).join('')}
+                        </div>
+                    ` : ''}
+
+                    <span class="bg-navy-950 text-gold-400 text-[10px] font-black uppercase px-2 py-0.5 rounded">${p.tag || 'Standard'}</span>
+                    <h3 class="text-base font-black text-navy-900">${p.name}</h3>
+                    <p class="text-xs text-slate-500">${p.description || 'Inspected for maximum durability, comfort, and standard sizing in Ghana.'}</p>
+                    <p class="text-lg font-black text-gold-600">GH₵ ${parseFloat(p.price).toFixed(2)}</p>
+                    <button onclick="addToCart('${p.id}'); closeQuickView();" class="w-full gold-bg-gradient text-navy-950 font-black py-2.5 rounded-lg text-xs uppercase">
+                        Add to Order Bag
+                    </button>
+                </div>
+            `;
+            document.getElementById('quickview-modal').classList.remove('hidden');
+        }
+
+        function closeQuickView() {
+            document.getElementById('quickview-modal').classList.add('hidden');
+        }
+
+        function openCheckoutModal() {
+            if (cart.length === 0) {
+                showToast("Cart Empty", "Please add items to your cart first.");
+                return;
+            }
+            toggleCartDrawer();
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+        }
+
+        function processOrder(e) {
+            e.preventDefault();
+            closeCheckoutModal();
+            cart = [];
+            appliedDiscount = 0;
+            updateCartUI();
+            showToast("Order Placed Successfully", "Thank you! Our agent will contact your Mobile Money number.");
+        }
+
+        function setSlide(index) {
+            activeSlideIndex = index;
+            const slides = document.querySelectorAll('.hero-slide');
+            const dots = document.querySelectorAll('.slide-dot');
+
+            slides.forEach((s, i) => {
+                if (i === index) {
+                    s.classList.remove('opacity-0');
+                    s.classList.add('opacity-100');
+                } else {
+                    s.classList.remove('opacity-100');
+                    s.classList.add('opacity-0');
+                }
+            });
+
+            dots.forEach((d, i) => {
+                if (i === index) {
+                    d.classList.add('bg-gold-500', 'w-8');
+                    d.classList.remove('bg-slate-600', 'w-2.5');
+                } else {
+                    d.classList.remove('bg-gold-500', 'w-8');
+                    d.classList.add('bg-slate-600', 'w-2.5');
+                }
+            });
+        }
+
+        function startHeroAutoSlide() {
+            setInterval(() => {
+                activeSlideIndex = (activeSlideIndex + 1) % 2;
+                setSlide(activeSlideIndex);
+            }, 6000);
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu) menu.classList.toggle('hidden');
+        }
+
+        function handleNewsletter(e) {
+            e.preventDefault();
+            showToast("Subscribed!", "Check your email for your 10% discount code.");
+            e.target.reset();
+        }
+
+        function showToast(title, message) {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+            document.getElementById('toast-title').innerText = title;
+            document.getElementById('toast-message').innerText = message;
+
+            toast.classList.remove('translate-x-full', 'opacity-0');
+            toast.classList.add('translate-x-0', 'opacity-100');
+
+            setTimeout(() => {
+                hideToast();
+            }, 4000);
+        }
+
+        function hideToast() {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+            toast.classList.remove('translate-x-0', 'opacity-100');
+            toast.classList.add('translate-x-full', 'opacity-0');
+        }
+    </script>
+</body>
+</html></comment-tag id="1" text="Update loadStoreCatalog() to combine local items with cloud/default items instead of overwriting them, allowing unlimited new items to accumulate persistently on the page." type="suggestion">

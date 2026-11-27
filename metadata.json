@@ -1,0 +1,6 @@
+{
+  "name": "June 24 Enterprise",
+  "description": "Quality Footwear, Tactical & Cadet Gear, Made in Ghana Leather, and Streetwear Storefront",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

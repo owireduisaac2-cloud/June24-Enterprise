@@ -1,0 +1,315 @@
+{
+  "entities": {
+    "CatalogProduct": {
+      "title": "CatalogProduct",
+      "description": "A product item listed in the June 24 Enterprise storefront catalog.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique product identifier.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "name": {
+          "type": "string",
+          "description": "Product display title.",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "category": {
+          "type": "string",
+          "description": "Catalog category slug.",
+          "enum": ["footwear", "cadet", "ghana", "clothing"]
+        },
+        "price": {
+          "type": "number",
+          "description": "Price in Ghanaian Cedis (GHS)."
+        },
+        "tag": {
+          "type": "string",
+          "description": "Short product status or highlight label.",
+          "maxLength": 48
+        },
+        "icon": {
+          "type": "string",
+          "description": "Fallback icon identifier.",
+          "maxLength": 64
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed product description.",
+          "maxLength": 2000
+        },
+        "imageUrls": {
+          "type": "array",
+          "description": "Ordered list of product image URLs or compressed data URIs (first is cover)."
+        },
+        "hidden": {
+          "type": "boolean",
+          "description": "Whether the product is hidden from the public storefront without deleting it."
+        },
+        "stockStatus": {
+          "type": "string",
+          "description": "Inventory availability status displayed to storefront customers.",
+          "enum": ["in_stock", "out_of_stock", "pre_order"]
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "UID of the admin who published or updated the item.",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server update timestamp."
+        }
+      },
+      "required": ["id", "name", "category", "price", "ownerId", "createdAt", "updatedAt"]
+    },
+    "StoreOrder": {
+      "title": "StoreOrder",
+      "description": "A customer checkout order with Mobile Money or Card payment metadata.",
+      "type": "object",
+      "properties": {
+        "orderNumber": {
+          "type": "string",
+          "description": "Human-readable order code.",
+          "minLength": 4,
+          "maxLength": 32
+        },
+        "customerId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the buyer.",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "customerName": {
+          "type": "string",
+          "description": "Full name of recipient.",
+          "minLength": 2,
+          "maxLength": 120
+        },
+        "phone": {
+          "type": "string",
+          "description": "Mobile Money or contact phone number.",
+          "minLength": 7,
+          "maxLength": 30
+        },
+        "region": {
+          "type": "string",
+          "description": "Delivery region in Ghana.",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "address": {
+          "type": "string",
+          "description": "Delivery landmark or street address.",
+          "minLength": 3,
+          "maxLength": 240
+        },
+        "paymentMethod": {
+          "type": "string",
+          "description": "Payment channel used.",
+          "enum": ["mtn", "telecel", "card"]
+        },
+        "itemCount": {
+          "type": "number",
+          "description": "Total quantity of items ordered."
+        },
+        "itemsSummary": {
+          "type": "string",
+          "description": "Summary of product names and quantities in the order.",
+          "maxLength": 500
+        },
+        "totalAmount": {
+          "type": "number",
+          "description": "Payable grand total in GHS."
+        },
+        "status": {
+          "type": "string",
+          "description": "Order fulfillment status.",
+          "enum": ["confirmed", "processing", "dispatched", "delivered"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        }
+      },
+      "required": [
+        "orderNumber",
+        "customerId",
+        "customerName",
+        "phone",
+        "region",
+        "address",
+        "paymentMethod",
+        "itemCount",
+        "totalAmount",
+        "status",
+        "createdAt"
+      ]
+    },
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Trusted admin role mapping keyed by Firebase Auth UID.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Admin user UID.",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Admin email address.",
+          "maxLength": 160
+        }
+      },
+      "required": ["uid", "email"]
+    },
+    "NewsletterSubscriber": {
+      "title": "NewsletterSubscriber",
+      "description": "Email address subscribed to the June 24 Enterprise storefront newsletter.",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Normalized subscriber email address.",
+          "minLength": 5,
+          "maxLength": 160,
+          "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+        },
+        "source": {
+          "type": "string",
+          "description": "Signup origin within the storefront.",
+          "enum": ["footer_newsletter"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        }
+      },
+      "required": ["email", "source", "createdAt"]
+    },
+    "OrderTracking": {
+      "title": "OrderTracking",
+      "description": "PII-free delivery status record for customer order tracking by order number.",
+      "type": "object",
+      "properties": {
+        "orderNumber": {
+          "type": "string",
+          "description": "Human-readable order code (e.g. J24-123456).",
+          "minLength": 4,
+          "maxLength": 32,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "status": {
+          "type": "string",
+          "description": "Order fulfillment status.",
+          "enum": ["confirmed", "processing", "dispatched", "delivered"]
+        },
+        "region": {
+          "type": "string",
+          "description": "Delivery region in Ghana (no street address or PII).",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "itemCount": {
+          "type": "number",
+          "description": "Total quantity of items ordered."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server update timestamp."
+        }
+      },
+      "required": ["orderNumber", "status", "region", "itemCount", "createdAt", "updatedAt"]
+    },
+    "CustomerReview": {
+      "title": "CustomerReview",
+      "description": "Public customer rating and written review for a catalog product.",
+      "type": "object",
+      "properties": {
+        "productId": {
+          "type": "string",
+          "description": "ID of the reviewed catalog product.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "author": {
+          "type": "string",
+          "description": "Reviewer display name.",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "location": {
+          "type": "string",
+          "description": "Optional city or region of the reviewer.",
+          "maxLength": 80
+        },
+        "rating": {
+          "type": "number",
+          "description": "Star rating from 1 to 5."
+        },
+        "comment": {
+          "type": "string",
+          "description": "Written customer review text.",
+          "minLength": 5,
+          "maxLength": 800
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        }
+      },
+      "required": ["productId", "author", "rating", "comment", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/catalog/{productId}": {
+      "schema": { "$ref": "#/entities/CatalogProduct" },
+      "description": "Publicly readable catalog products managed by verified store admins."
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/StoreOrder" },
+      "description": "Private customer checkout orders isolated to owner or store admin."
+    },
+    "/admins/{userId}": {
+      "schema": { "$ref": "#/entities/AdminUser" },
+      "description": "Server-managed admin allowlist documents."
+    },
+    "/subscribers/{subscriberId}": {
+      "schema": { "$ref": "#/entities/NewsletterSubscriber" },
+      "description": "Newsletter subscriber email records (write-once for storefront signups, admin-only reads for PII isolation)."
+    },
+    "/orderTracking/{orderNumber}": {
+      "schema": { "$ref": "#/entities/OrderTracking" },
+      "description": "PII-free order tracking records keyed by orderNumber for single-document status lookup."
+    },
+    "/reviews/{reviewId}": {
+      "schema": { "$ref": "#/entities/CustomerReview" },
+      "description": "Publicly readable customer product ratings and written reviews."
+    }
+  }
+}
